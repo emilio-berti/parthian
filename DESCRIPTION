@@ -1,0 +1,14 @@
+Package: parthian
+Type: Package
+Title: Landscape connectivity using energy costs of travel
+Version: 0.0.1
+Date: 2024-03-27
+Maintainer: Emilio Berti <emilio.berti@idiv.de>
+Description: One paragraph description of what the package does as one or more full sentences.
+License: MIT + file LICENSE
+Imports: 
+	Rcpp (>= 1.0.12),
+	igraph,
+	terra
+LinkingTo: Rcpp
+RoxygenNote: 7.3.1
