@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Berti
+    given-names: Emilio
+    orcid: https://orcid.org/0000-0001-9286-011X
+title: parthian
+version: 2.0.4
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10890031
+
+date-released: 2024-03-28
