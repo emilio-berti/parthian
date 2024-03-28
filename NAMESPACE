@@ -2,5 +2,8 @@ useDynLib(parthian, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
 exportPattern("^[[:alpha:]]+")
 
-importFrom(igraph, graph_from_edgelist)
 importFrom(methods, is)
+importFrom(igraph, graph_from_edgelist, E, "E<-", 
+           is_weighted, delete_edges)
+importFrom(terra, rast, vect)
+importFrom(enerscape, enerscape)

@@ -3,12 +3,26 @@ Type: Package
 Title: Landscape connectivity using energy costs of travel
 Version: 0.0.1
 Date: 2024-03-27
+Author: Emilio Berti <emilio.berti@idiv.de>
 Maintainer: Emilio Berti <emilio.berti@idiv.de>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Calculate cost of travel (kcal) in a landscape for an animal, use 
+  this to find the least-cost paths between locations, e.g. protected areas, 
+  and evaluate the spatial network of such areas. Finally, it ranks areas
+  according the several network centrality measures.
 License: MIT + file LICENSE
 Imports: 
 	Rcpp (>= 1.0.12),
 	igraph,
-	terra
+	terra,
+	enerscape (>= 1.1.0),
+	methods
 LinkingTo: Rcpp
 RoxygenNote: 7.3.1
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Encoding: UTF-8
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

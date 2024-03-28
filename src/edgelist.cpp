@@ -1,6 +1,9 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @name edgelist
+//' @title Edgelist of weighted graph based on energy landscapes.
+//' @param x matrix of the cost of travel.
 // [[Rcpp::export]]
 DataFrame edgelist( NumericMatrix x ) {
   
@@ -87,4 +90,3 @@ DataFrame edgelist( NumericMatrix x ) {
   );
   return ans ;
 }
-// 
