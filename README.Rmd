@@ -20,10 +20,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# General information
+# Development and dependecies
 
 The R package _parthian_ is developed and maintained by Emilio Berti (<emilio.berti@idiv.de>).
-The scope of _parthian_ is to quantify the importance of areas in the landscape based on energy cost of movement for animals.
 There are several dependencies for _parthian_:
 
   - Rcpp
@@ -40,7 +39,13 @@ library(igraph)
 library(parthian)
 ```
 
-# Introduction
+# Workflow
+
+## Introduction
+
+The scope of _parthian_ is to quantify the importance of areas in the landscape based on energy cost of movement for animals.
+This is achieved by building a weighted graph between adjacent cells using as weights the cost of transport ($E_{COT}$) between them.
+This weighted graph is used to obtain least-cost paths and to rank areas based on their importance in promoting movement across such paths.
 
 There are two datasets in _parthian_:
 
@@ -68,6 +73,8 @@ lines(as.polygons(pa))
 
 The resolution and extent of the layers are wrong (I need to fix this in the package data), but it does not matter too much for the examples.
 
+## Energy landscape
+
 The next step is to calcualte the energy landscape for the animal.
 Here, I am assuming an animal of 10 kg.
 
@@ -77,6 +84,9 @@ plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
 plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
 lines(as.polygons(pa))
 ```
+
+
+## Weighted graph 
 
 The main task of _parthian_ is to create a graph where vertices (_V_) are the cells of the energy landscapes and weighted edges (_E_) $E_{ij} = E_{COT}$ if two cells are adjacent, and $E_{ij} = 0$ if they are not.
 
@@ -96,7 +106,7 @@ but the number of edges may be lower than $8V$, as some paths may be blocked, in
 length(E(g)) == ncell(en) * 8
 ```
 
-# Least cost paths
+## Least cost paths
 Least-cost paths can be obtained using the weighted graph created by `cost_graph()` and the _igraph_ `shortest_paths()` function.
 First, let's get the centroids of the protected area, after exlcuding very small areas ($\leq 100 m^2$):
 
@@ -126,4 +136,16 @@ plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
 lines(as.polygons(pa))
 lines(as.lines(path), lw = 3, col = "green4")
 text(220, 350, paste("Energy costs:", round(total_costs), "kcal"))
+```
+
+The function `parthian_path()` wraps the above code and can be called from _parthian_.
+
+```{r path}
+message("to do")
+```
+
+Instead of calculating least-cost paths manually, _parthian_ uses the function `parthian_paths()` to obtain them iteratively between all cells.
+
+```{r paths}
+message("to do")
 ```
