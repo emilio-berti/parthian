@@ -1,0 +1,162 @@
+---
+author: Emilio Berti
+output: 
+  github_document:
+    pandoc_args: --webtex
+---
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10890031.svg)](https://doi.org/10.5281/zenodo.10890031)
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  fig.width = 4,
+  fig.height = 4,
+  fig.align='center',
+  dpi = 300,
+  out.width = "50%"
+)
+```
+
+# Development and dependecies
+
+The R package _parthian_ is developed and maintained by Emilio Berti (<emilio.berti@idiv.de>).
+There are several dependencies for _parthian_:
+
+  - Rcpp
+  - igraph
+  - terra
+  - enerscape
+  
+They are all stable packages with long history, except for _enerscape_, which I developed in 2021 and maintain since then: <https://cran.r-project.org/package=enerscape> and <https://doi.org/10.1111/2041-210X.13734>.
+
+```{r}
+library(terra)
+library(enerscape)
+library(igraph)
+library(parthian)
+```
+
+# Workflow
+
+## Introduction
+
+The scope of _parthian_ is to quantify the importance of areas in the landscape based on energy cost of movement for animals.
+This is achieved by building a weighted graph between adjacent cells using as weights the cost of transport ($E_{COT}$) between them.
+This weighted graph is used to obtain least-cost paths and to rank areas based on their importance in promoting movement across such paths.
+
+There are two datasets in _parthian_:
+
+  - dem: a digital elevation model for an area in Sicily, Italy.
+  - pa: the protected areas in the same region.
+
+These are matrices, as it is easier to store them in an R package.
+The first thing is to transform them into raster.
+
+```{r torasters}
+data(dem)
+dem <- rast(
+  dem,
+  crs = "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+)
+data(pa)
+pa <- rast(
+  pa,
+  crs = "+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs"
+)
+plot(dem, col = colorRampPalette(c("darkblue", "seagreen", "white"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(as.polygons(pa))
+```
+
+The resolution and extent of the layers are wrong (I need to fix this in the package data), but it does not matter too much for the examples.
+
+## Energy landscape
+
+The next step is to calcualte the energy landscape for the animal.
+Here, I am assuming an animal of 10 kg.
+
+```{r enerscape}
+en <- enerscape(dem, 10, "kcal")
+plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(as.polygons(pa))
+```
+
+
+## Weighted graph 
+
+The main task of _parthian_ is to create a graph where vertices (_V_) are the cells of the energy landscapes and weighted edges (_E_) $E_{ij} = E_{COT}$ if two cells are adjacent, and $E_{ij} = 0$ if they are not.
+
+```{r cost-graph}
+g <- cost_graph(en)
+```
+
+Generally, there are as many vertices as number of cells
+
+```{r vertices}
+length(V(g)) == ncell(en)
+```
+
+but the number of edges may be lower than $8V$, as some paths may be blocked, in this example by the sea.
+
+```{r edges}
+length(E(g)) == ncell(en) * 8
+```
+
+## Least cost paths
+Least-cost paths can be obtained using the weighted graph created by `cost_graph()` and the _igraph_ `shortest_paths()` function.
+First, let's get the centroids of the protected area, after exlcuding very small areas ($\leq 100 m^2$):
+
+```{r centroids}
+pas <- disagg(as.polygons(pa))
+pas <- pas[expanse(pas, "m") > 100, ]
+centrs <- centroids(pas)
+plot(pa, col = "gold")
+points(centrs, cex = 1, pch = 21)
+points(centrs[c(1, 4), ], cex = 1, pch = 20)
+```
+Let's calcualte the least-cost path between the two areas highlighted by the solid circle.
+Because there is a one-to-one correspondence between cell and vertex ID, this can be achieved by:
+
+```{r lcp}
+xy <- extract(en, centrs[c(1, 4), ], cells = TRUE)
+lcp <- shortest_paths(g, xy$cell[1], xy$cell[2])
+path <- lcp$vpath[[1]]
+path <- xyFromCell(en, as.numeric(path))
+path <- vect(path, crs = crs(dem))
+total_costs <- sum(extract(en, path)[["EnergyScape"]])
+```
+
+```{r plot-path}
+plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(as.polygons(pa))
+lines(as.lines(path), lw = 3, col = "green4")
+text(220, 350, paste("Energy costs:", round(total_costs), "kcal"))
+```
+
+The function `parthian_path()` wraps the above code and can be called from _parthian_.
+
+```{r path}
+lcp <- parthian_path(g, en, centrs[1], centrs[4])
+lcp
+```
+
+`parthian_path()` returns the least-cost path as a SpatVector and its total travel costs, which are the same as before.
+
+```{r replot-path}
+plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(as.polygons(pa))
+lines(lcp$lcp, lw = 3, col = "green4")
+text(220, 350, paste("Energy costs:", round(lcp$costs), "kcal"))
+```
+
+Instead of calculating least-cost paths manually, _parthian_ uses the function `parthian_paths()` to obtain them iteratively between all cells.
+
+```{r paths}
+message("to do")
+```
