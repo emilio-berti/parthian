@@ -7,8 +7,12 @@ Emilio Berti
 The R package *parthian* is developed and maintained by Emilio Berti
 (<emilio.berti@idiv.de>). The scope of *parthian* is to quantify the
 importance of areas in the landscape based on energy cost of movement
-for animals. There are several dependencies for *parthian*: - Rcpp -
-igraph - terra - enerscape
+for animals. There are several dependencies for *parthian*:
+
+- Rcpp
+- igraph
+- terra
+- enerscape
 
 They are all stable packages with long history, except for *enerscape*,
 which I developed in 2022 and maintain since then:
@@ -39,9 +43,10 @@ library(parthian)
 
 # Introduction
 
-There are two datasets in *parthian*: - dem: a digital elevation model
-for an area in Sicily, Italy. - pa: the protected areas in the same
-region.
+There are two datasets in *parthian*:
+
+- dem: a digital elevation model for an area in Sicily, Italy.
+- pa: the protected areas in the same region.
 
 These are matrices, as it is easier to store them in an R package. The
 first thing is to transform them into raster.
@@ -139,7 +144,7 @@ plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
 plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
 lines(as.polygons(pa))
 lines(as.lines(path), lw = 3, col = "green4")
-text(250, 350, paste("Energy costs:", round(total_costs), "kcal"))
+text(220, 350, paste("Energy costs:", round(total_costs), "kcal"))
 ```
 
 <img src="man/figures/README-plot-path-1.png" width="50%" style="display: block; margin: auto;" />

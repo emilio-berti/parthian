@@ -23,6 +23,7 @@ knitr::opts_chunk$set(
 The R package _parthian_ is developed and maintained by Emilio Berti (<emilio.berti@idiv.de>).
 The scope of _parthian_ is to quantify the importance of areas in the landscape based on energy cost of movement for animals.
 There are several dependencies for _parthian_:
+
   - Rcpp
   - igraph
   - terra
@@ -40,6 +41,7 @@ library(parthian)
 # Introduction
 
 There are two datasets in _parthian_:
+
   - dem: a digital elevation model for an area in Sicily, Italy.
   - pa: the protected areas in the same region.
 
@@ -121,5 +123,5 @@ plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
 plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
 lines(as.polygons(pa))
 lines(as.lines(path), lw = 3, col = "green4")
-text(250, 350, paste("Energy costs:", round(total_costs), "kcal"))
+text(220, 350, paste("Energy costs:", round(total_costs), "kcal"))
 ```
