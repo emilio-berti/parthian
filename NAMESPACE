@@ -5,5 +5,5 @@ exportPattern("^[[:alpha:]]+")
 importFrom(methods, is)
 importFrom(igraph, graph_from_edgelist, E, "E<-", 
            is_weighted, delete_edges, shortest_paths)
-importFrom(terra, rast, vect, extract, xyFromCell, as.lines, crs)
+importFrom(terra, rast, vect, extract, xyFromCell, as.lines, crs, geom)
 importFrom(enerscape, enerscape)

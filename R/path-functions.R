@@ -31,7 +31,7 @@ parthian_path <- function(g, r, from = NULL, to = NULL) {
   
   # least cost path ----
   if (is(from, "SpatVector")) {
-    xy <- extract(r, rbind(from, to), cells = TRUE)
+    xy <- geom(rbind(from, to))[, c("x", "y")]
     from <- xy[["cell"]][1]
     to <- xy[["cell"]][2]
   }
