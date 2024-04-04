@@ -141,7 +141,18 @@ text(220, 350, paste("Energy costs:", round(total_costs), "kcal"))
 The function `parthian_path()` wraps the above code and can be called from _parthian_.
 
 ```{r path}
-message("to do")
+lcp <- parthian_path(g, en, centrs[1], centrs[4])
+lcp
+```
+
+`parthian_path()` returns the least-cost path as a SpatVector and its total travel costs, which are the same as before.
+
+```{r replot-path}
+plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(as.polygons(pa))
+lines(lcp$lcp, lw = 3, col = "green4")
+text(220, 350, paste("Energy costs:", round(lcp$costs), "kcal"))
 ```
 
 Instead of calculating least-cost paths manually, _parthian_ uses the function `parthian_paths()` to obtain them iteratively between all cells.
