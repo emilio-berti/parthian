@@ -40,7 +40,7 @@ parthian_path <- function(g, r, from = NULL, to = NULL) {
   # to vector -------
   lcp <- xyFromCell(r, as.numeric(lcp))
   lcp <- vect(lcp, crs = crs(r))
-  costs <- sum(extract(r, xy)[["EnergyScape"]]) #fix enerscape to cast the class
+  costs <- sum(extract(r, lcp)[["EnergyScape"]]) #fix enerscape to cast the class
   lcp <- as.lines(lcp)
   
   # return ----------
