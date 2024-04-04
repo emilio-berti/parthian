@@ -1,7 +1,6 @@
 ---
 author: Emilio Berti
 output: github_document
-bibliography: references.bib  
 ---
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10890031.svg)](https://doi.org/10.5281/zenodo.10890031)
@@ -19,3 +18,5 @@ knitr::opts_chunk$set(
 )
 ```
 
+The R package _parthian_ is developed and maintained by Emilio Berti (<emilio.berti@idiv.de>).
+The scope of _parthian_ is to quantify the importance of areas in the landscape based on energy cost of movement for animals.
