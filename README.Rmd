@@ -1,0 +1,21 @@
+---
+author: Emilio Berti
+output: github_document
+bibliography: references.bib  
+---
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10890031.svg)](https://doi.org/10.5281/zenodo.10890031)
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  fig.width = 4,
+  fig.height = 4,
+  fig.align='center',
+  dpi = 300,
+  out.width = "50%"
+)
+```
+

@@ -2,3 +2,9 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 .github
+CITATION.cff
+README.md
+_site.yml
+index.Rmd
+_config.yml
+README.Rmd
