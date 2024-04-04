@@ -87,8 +87,10 @@ lines(as.polygons(pa))
 
 The main task of *parthian* is to create a graph where vertices (*V*)
 are the cells of the energy landscapes and weighted edges (*E*)
-$E_{ij} = E_{COT}$ if two cells are adjacent, and $E_{ij} = 0$ if they
-are not.
+![E\_{ij} = E\_{COT}](https://latex.codecogs.com/png.latex?E_%7Bij%7D%20%3D%20E_%7BCOT%7D "E_{ij} = E_{COT}")
+if two cells are adjacent, and
+![E\_{ij} = 0](https://latex.codecogs.com/png.latex?E_%7Bij%7D%20%3D%200 "E_{ij} = 0")
+if they are not.
 
 ``` r
 g <- cost_graph(en)
@@ -101,8 +103,9 @@ length(V(g)) == ncell(en)
 #> [1] TRUE
 ```
 
-but the number of edges may be lower than $8V$, as some paths may be
-blocked, in this example by the sea.
+but the number of edges may be lower than
+![8V](https://latex.codecogs.com/png.latex?8V "8V"), as some paths may
+be blocked, in this example by the sea.
 
 ``` r
 length(E(g)) == ncell(en) * 8
@@ -114,7 +117,8 @@ length(E(g)) == ncell(en) * 8
 Least-cost paths can be obtained using the weighted graph created by
 `cost_graph()` and the *igraph* `shortest_paths()` function. First,
 let’s get the centroids of the protected area, after exlcuding very
-small areas ($\leq 100 m^2$):
+small areas
+(![\leq 100 m^2](https://latex.codecogs.com/png.latex?%5Cleq%20100%20m%5E2 "\leq 100 m^2")):
 
 ``` r
 pas <- disagg(as.polygons(pa))
