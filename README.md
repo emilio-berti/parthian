@@ -201,6 +201,36 @@ function `parthian_paths()` to obtain them iteratively between all
 cells.
 
 ``` r
-message("to do")
-#> to do
+lcps <- parthian_paths(g, en, centrs)
+lcps
+#> $lcps
+#>  class       : SpatVector 
+#>  geometry    : lines 
+#>  dimensions  : 6, 0  (geometries, attributes)
+#>  extent      : 159.5, 478.5, 208.5, 485.5  (xmin, xmax, ymin, ymax)
+#>  coord. ref. : +proj=utm +zone=32 +datum=WGS84 +units=m +no_defs 
+#> 
+#> $costs
+#>          [,1]     [,2]     [,3]     [,4]
+#> [1,]   0.0000 315.0435 406.4395 406.3804
+#> [2,] 315.0435   0.0000 492.9278 310.2456
+#> [3,] 406.4395 492.9278   0.0000 328.3019
+#> [4,] 406.3804 310.2456 328.3019   0.0000
 ```
+
+The output of `parthian_paths()` is a list with:
+
+1.  *lcps*: the lines of the least-cost paths (SpatVect).
+2.  *costs*: the matrix with energy costs between cells, symmetric.
+
+``` r
+plot(en, col = colorRampPalette(c("grey95", "tomato", "darkred"))(100))
+plot(pa, add = TRUE, col = adjustcolor("gold", alpha.f = .5), legend = FALSE)
+lines(pas)
+lines(lcps$lcps, lw = 3, col = "green4")
+```
+
+<img src="man/figures/README-paths-plot-1.png" width="50%" style="display: block; margin: auto;" />
+
+As a rule of thumb, if you want to call `parthian_path()` several times,
+the usage of `parthian_paths()` is preferred.
